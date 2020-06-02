@@ -3,6 +3,12 @@ bits 16                         ; We're working at 16-bit mode here
 
 start:
 	cli                     ; Disable the interrupts
+	mov ah, 0x00		; Video mode
+	; In QEMU, this doesn't change anything, but according to technical
+        ; docs, default is 40x25 (mode 0). Try to change 2 for 0, you'll see
+	; how it looks.
+	mov al, 2		; 80x25, BW
+	int 0x10
 	mov si, msg             ; SI now points to our message
 	mov ah, 0x0E            ; Indicate BIOS we're going to print chars
 .loop	lodsb                   ; Loads SI into AL and increments SI [next char]
